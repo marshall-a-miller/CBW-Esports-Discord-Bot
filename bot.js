@@ -60,9 +60,8 @@ function authorize(credentials, callback, tag, member) {
 function getSheetInfo(auth, tag, member) {
     memberData = {};
     const sheets = google.sheets({version: 'v4', auth});
-    //1MX4U-qdNvzFwdEGCv3C4DuFizUEdP_B_ZBmeriUH3R0 is the spreadsheet id, must be public
     sheets.spreadsheets.values.get({
-        spreadsheetId: '1n1CA4k0cn7BMqyeuqMoqfCJrRN-hU95R-laMhr2tB78',
+        spreadsheetId: 'clubSignUpSheetId',
         range: 'C2:F',
     }, (err, res) => {
         if (err) return console.log('The API returned an error: ' + err);
@@ -88,13 +87,13 @@ function getSheetInfo(auth, tag, member) {
         if (Object.keys(memberData).length > 0) {
             member.setNickname(memberData.nick);
             if (memberData.school == "Other") {
-                member.addRole(bot.guilds.get("620773855509872710").roles.find(role => role.name === "Friendly"));
+                member.addRole(bot.guilds.get("serverId").roles.find(role => role.name === "Friendly"));
             } else {
-                member.addRole(bot.guilds.get("620773855509872710").roles.find(role => role.name === memberData.school));
+                member.addRole(bot.guilds.get("serverId").roles.find(role => role.name === memberData.school));
             }
             let memberGames = memberData.games.split(', ');
             for (let i = 0; i < memberGames.length; i++) {
-                member.addRole(bot.guilds.get("620773855509872710").roles.find(role => role.name === memberGames[i]));
+                member.addRole(bot.guilds.get("serverId").roles.find(role => role.name === memberGames[i]));
             }
         } else {
             member.kick();
